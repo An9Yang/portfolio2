@@ -17,11 +17,14 @@
  * - Clean, minimal navigation
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { usePinnedTitle } from '@/hooks/usePinnedTitle';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { X } from 'lucide-react';
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const aboutPinned = usePinnedTitle(10);
   const projectsPinned = usePinnedTitle(10);
   const servicesPinned = usePinnedTitle(10);
@@ -229,18 +232,96 @@ export default function Home() {
             <span className="text-sm text-white/70 font-light">@2025</span>
           </div>
           
-          {/* Menu */}
-          <div className="hidden md:block">
-            <div className="text-right space-y-2">
-              <div className="text-sm font-medium tracking-wide">Menu</div>
-              <div className="space-y-1 text-xs text-white/90 font-light">
-                <div className="tracking-wide">Brand Design</div>
-                <div className="tracking-wide">Web Development</div>
-                <div className="tracking-wide">Motion Design</div>
-                <div className="tracking-wide">Digital Marketing</div>
+          {/* Menu Button - Desktop */}
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+            <SheetTrigger asChild>
+              <button className="hidden md:block text-right group">
+                <div className="space-y-2">
+                  <div className="text-sm font-medium tracking-wide">Menu</div>
+                  <div className="space-y-1 text-xs text-white/90 font-light">
+                    <div className="tracking-wide">Brand Design</div>
+                    <div className="tracking-wide">Web Development</div>
+                    <div className="tracking-wide">Motion Design</div>
+                    <div className="tracking-wide">Digital Marketing</div>
+                  </div>
+                </div>
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full md:w-[500px] bg-white p-0 border-none">
+              {/* Close Button */}
+              <button 
+                onClick={() => setMenuOpen(false)}
+                className="absolute top-8 right-8 z-50 p-2 hover:bg-black/5 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6 text-black" />
+              </button>
+
+              {/* Menu Content */}
+              <div className="h-full flex flex-col justify-between p-12 md:p-16">
+                {/* Navigation Links */}
+                <nav className="space-y-6 pt-8">
+                  <a 
+                    href="#home" 
+                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Home
+                  </a>
+                  <a 
+                    href="#projects" 
+                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Projects
+                  </a>
+                  <a 
+                    href="#services" 
+                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Services
+                  </a>
+                  <a 
+                    href="#about" 
+                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    About us
+                  </a>
+                  <a 
+                    href="#blog" 
+                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Blog
+                  </a>
+                  <a 
+                    href="#contact" 
+                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Contact
+                  </a>
+                </nav>
+
+                {/* Contact Information */}
+                <div className="border-t border-black/10 pt-8 space-y-6">
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <p className="text-black text-base font-normal">+001 313 759 968 345</p>
+                    </div>
+                    <div>
+                      <p className="text-black text-base font-normal">12273 Dream Avenue,</p>
+                      <p className="text-black text-base font-normal">New York, United State</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-black text-base font-normal">martinrobart@gmail.com</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </header>
 
@@ -262,7 +343,7 @@ export default function Home() {
           <div className="relative portrait-container flex items-center justify-center">
             {/* Portrait Image - Static, non-interactive */}
             <img
-              src="/portrait.png"
+              src="https://static.step1.dev/4cfd7d4f5bcb49913cb3b89b805a76f9"
               onError={(e) => { (e.currentTarget as HTMLImageElement).src = DEFAULT_PORTRAIT; }}
               alt="Portrait"
               className="max-w-full max-h-full object-contain drop-shadow-[0_18px_30px_rgba(0,0,0,0.28)]"
@@ -317,11 +398,85 @@ export default function Home() {
       </div>
 
       {/* Mobile Menu Button */}
-      <button className="md:hidden absolute top-6 right-6 z-30 p-2">
-        <div className="w-5 h-0.5 bg-white mb-1"></div>
-        <div className="w-5 h-0.5 bg-white mb-1"></div>
-        <div className="w-5 h-0.5 bg-white"></div>
-      </button>
+      <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+        <SheetTrigger asChild>
+          <button className="md:hidden absolute top-6 right-6 z-30 p-2">
+            <div className="w-5 h-0.5 bg-white mb-1"></div>
+            <div className="w-5 h-0.5 bg-white mb-1"></div>
+            <div className="w-5 h-0.5 bg-white"></div>
+          </button>
+        </SheetTrigger>
+        <SheetContent side="right" className="w-full bg-white p-0 border-none">
+          {/* Close Button */}
+          <button 
+            onClick={() => setMenuOpen(false)}
+            className="absolute top-8 right-8 z-50 p-2 hover:bg-black/5 rounded-full transition-colors"
+          >
+            <X className="w-6 h-6 text-black" />
+          </button>
+
+          {/* Menu Content */}
+          <div className="h-full flex flex-col justify-between p-8 md:p-16">
+            {/* Navigation Links */}
+            <nav className="space-y-4 pt-16">
+              <a 
+                href="#home" 
+                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                onClick={() => setMenuOpen(false)}
+              >
+                Home
+              </a>
+              <a 
+                href="#projects" 
+                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                onClick={() => setMenuOpen(false)}
+              >
+                Projects
+              </a>
+              <a 
+                href="#services" 
+                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                onClick={() => setMenuOpen(false)}
+              >
+                Services
+              </a>
+              <a 
+                href="#about" 
+                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                onClick={() => setMenuOpen(false)}
+              >
+                About us
+              </a>
+              <a 
+                href="#blog" 
+                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                onClick={() => setMenuOpen(false)}
+              >
+                Blog
+              </a>
+              <a 
+                href="#contact" 
+                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
+                onClick={() => setMenuOpen(false)}
+              >
+                Contact
+              </a>
+            </nav>
+
+            {/* Contact Information */}
+            <div className="border-t border-black/10 pt-8 space-y-4">
+              <div className="space-y-4">
+                <p className="text-black text-sm md:text-base font-normal">+001 313 759 968 345</p>
+                <p className="text-black text-sm md:text-base font-normal">martinrobart@gmail.com</p>
+                <div>
+                  <p className="text-black text-sm md:text-base font-normal">12273 Dream Avenue,</p>
+                  <p className="text-black text-sm md:text-base font-normal">New York, United State</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
 
       {/* About Me Section */}
       <section className="relative bg-paper min-h-[120vh] md:min-h-[110vh]">

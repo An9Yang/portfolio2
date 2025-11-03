@@ -19,6 +19,7 @@
 
 import React, { useState, useRef } from 'react';
 import { usePinnedTitle } from '@/hooks/usePinnedTitle';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 
 export default function Home() {
   const [portraitImage, setPortraitImage] = useState<string | null>(null);
@@ -27,6 +28,10 @@ export default function Home() {
   const projectsPinned = usePinnedTitle(10);
   const servicesPinned = usePinnedTitle(10);
   const clientsPinned = usePinnedTitle(10);
+  const reviewsPinned = usePinnedTitle(10);
+  const faqPinned = usePinnedTitle(10);
+  const blogPinned = usePinnedTitle(10);
+  const contactPinned = usePinnedTitle(10);
   
   // Projects data - images can be provided later; empty imageUrl will show a placeholder
   // Keep a compact list for now; will expand with user's assets
@@ -108,6 +113,107 @@ export default function Home() {
     { idx: '06', company: 'Energetix', industry: 'Food & Beverage', year: '2021' },
     { idx: '07', company: 'DigiMinds', industry: 'E-commerce', year: '2020' },
     { idx: '08', company: 'UrbanEdge', industry: 'Tech', year: '2019' },
+  ];
+
+  const reviews: Array<{
+    title: string;
+    quote: string;
+    person: string;
+    role: string;
+    avatar: string;
+    image: string;
+  }> = [
+    {
+      title: 'A strategic partner for our business growth',
+      quote:
+        "Martin's creativity and attention to detail are unmatched. He turned our vision into a reality, delivering a project that exceeded all expectations.",
+      person: 'Faye Paucek',
+      role: 'Configuration Representative',
+      avatar: 'https://i.pravatar.cc/80?img=12',
+      image: 'https://images.unsplash.com/photo-1613553513307-9ff3b1f20731?auto=format&fit=crop&w=1200&q=80',
+    },
+    {
+      title: 'Elevated Our Brand Beyond Expectations',
+      quote:
+        'Working alongside Martin has been an inspiring experience. His ability to problem-solve and innovate under tight deadlines is truly remarkable.',
+      person: 'Shelly Larkin',
+      role: 'Marketing Executive',
+      avatar: 'https://i.pravatar.cc/80?img=32',
+      image: 'https://images.unsplash.com/photo-1604079628040-94301bb21b91?auto=format&fit=crop&w=1200&q=80',
+    },
+    {
+      title: 'Professional, Creative, and Results-Driven',
+      quote:
+        "Martin's expertise in web design is second to none. His work consistently sets a new standard for excellence in the field.",
+      person: 'Clyde Vandervort',
+      role: 'Optimization Executive',
+      avatar: 'https://i.pravatar.cc/80?img=57',
+      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
+    },
+    {
+      title: 'Beyond Just Design—A Complete Experience',
+      quote:
+        'Martin helped us launch our startup with clarity and speed. Blending technical expertise with creative thinking gave us an edge in a competitive market.',
+      person: 'Cory Satterfield',
+      role: 'Program Director',
+      avatar: 'https://i.pravatar.cc/80?img=5',
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
+    },
+  ];
+
+  const faqs: Array<{ q: string; a: string }> = [
+    {
+      q: 'What information do you need to get started?',
+      a: 'A short brief, goals, brand assets (logo, colors, fonts), timelines, and any references you love. We will clarify scope and deliverables together.',
+    },
+    {
+      q: 'What do you charge for your services?',
+      a: 'Pricing depends on scope and complexity. I provide a clear proposal with phases and milestones after a quick discovery call.',
+    },
+    {
+      q: 'Can you work within our brand guidelines?',
+      a: 'Absolutely. I adapt to existing systems while proposing thoughtful improvements that strengthen consistency and usability.',
+    },
+    {
+      q: 'Do you offer ongoing support after project completion?',
+      a: 'Yes, I can provide maintenance retainers and iteration sprints to keep the product evolving after launch.',
+    },
+    {
+      q: 'How do we get started?',
+      a: 'Send a short intro and your ideal timeline. We schedule a call, align on scope, and kick off with a structured plan.',
+    },
+  ];
+
+  const blogPosts: Array<{
+    title: string;
+    date: string;
+    readMin: number;
+    image: string;
+  }> = [
+    {
+      title: '5 design principles that elevate your projects',
+      date: 'June 18, 2025',
+      readMin: 10,
+      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80',
+    },
+    {
+      title: 'Lessons learned from my most challenging project',
+      date: 'June 18, 2025',
+      readMin: 2,
+      image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=80',
+    },
+    {
+      title: 'How storytelling enhances your design and branding',
+      date: 'June 18, 2025',
+      readMin: 8,
+      image: 'https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=1400&q=80',
+    },
+    {
+      title: 'Essential tools every creative professional should use',
+      date: 'June 18, 2025',
+      readMin: 5,
+      image: 'https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=1400&q=80',
+    },
   ];
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -262,17 +368,17 @@ export default function Home() {
 
       {/* About Me Section */}
       <section className="relative bg-[#F5F5F0] min-h-[120vh] md:min-h-[110vh]">
-        <div className="mx-auto max-w-[1320px] px-6 md:px-8 lg:px-10 pt-28 lg:pt-36 pb-12 lg:pb-16">
+        <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left - Section Title (JS Pinned) */}
-            <div ref={aboutPinned.containerRef} className="relative col-span-2 -ml-2 md:-ml-3 lg:-ml-4">
-              <div ref={aboutPinned.titleRef} style={aboutPinned.style} className="text-[11px] md:text-xs font-medium tracking-[0.18em] text-black uppercase leading-none">
+            <div ref={aboutPinned.containerRef} className="sticky-col">
+              <div ref={aboutPinned.titleRef} style={aboutPinned.style} className="eyebrow">
                 I ABOUT ME
               </div>
             </div>
 
             {/* Right - Content */}
-            <div className="col-span-8 col-start-4">
+            <div className="content-col">
               {/* Description */}
               <p className="text-[1.6rem] md:text-[1.9rem] lg:text-[2.1rem] font-normal leading-[1.35] tracking-[-0.01em] text-black mb-12 lg:mb-16 max-w-[54ch]">
                 A passionate designer, developer, and problem-solver dedicated to crafting meaningful digital experiences. With 10 years of experience in the creative industry, I specialize in blending aesthetics with functionality to create designs that are not only visually stunning but also user-friendly and impactful.
@@ -298,83 +404,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Explore Services Section */}
+      {/* Selected Projects Section */}
       <section className="relative bg-[#F5F5F0]">
-        <div className="mx-auto max-w-[1320px] px-6 md:px-8 lg:px-10 pt-16 lg:pt-24 pb-12 lg:pb-16">
-          <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
-            {/* Left title */}
-            <div ref={servicesPinned.containerRef} className="relative col-span-2 -ml-2 md:-ml-3 lg:-ml-4">
-              <div ref={servicesPinned.titleRef} style={servicesPinned.style} className="text-[11px] md:text-xs font-medium tracking-[0.18em] text-black uppercase leading-none">
-                I EXPLORE SERVICES
-              </div>
-            </div>
-
-            {/* Right grid */}
-            <div className="col-span-8 col-start-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                {services.map((s, i) => (
-                  <div key={i} className="pb-8 border-b border-black/10">
-                    <div className="mb-3">{s.icon}</div>
-                    <div className="text-lg md:text-xl font-semibold text-black mb-2">{s.title}</div>
-                    <p className="text-sm text-black/70 leading-relaxed max-w-[48ch]">{s.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Latest Clients Section */}
-      <section className="relative bg-[#F5F5F0]">
-        <div className="mx-auto max-w-[1320px] px-6 md:px-8 lg:px-10 pt-16 lg:pt-24 pb-20 lg:pb-28">
-          <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
-            {/* Left title */}
-            <div ref={clientsPinned.containerRef} className="relative col-span-2 -ml-2 md:-ml-3 lg:-ml-4">
-              <div ref={clientsPinned.titleRef} style={clientsPinned.style} className="text-[11px] md:text-xs font-medium tracking-[0.18em] text-black uppercase leading-none">
-                I LATEST CLIENTS
-              </div>
-            </div>
-
-            {/* Right table */}
-            <div className="col-span-8 col-start-4">
-              <div className="max-w-[920px]">
-                {/* Header */}
-                <div className="grid grid-cols-12 text-xs text-black/60 mb-3">
-                  <div className="col-span-2">#</div>
-                  <div className="col-span-4">Company Name</div>
-                  <div className="col-span-4">Industry</div>
-                  <div className="col-span-2 text-right">Year</div>
-                </div>
-                <div className="divide-y divide-black/10">
-                  {clients.map((c) => (
-                    <div key={c.idx} className="grid grid-cols-12 py-3 items-center">
-                      <div className="col-span-2 text-black/80 text-sm">{c.idx}</div>
-                      <div className="col-span-4 text-black text-sm md:text-base">{c.company}</div>
-                      <div className="col-span-4 text-black/80 text-sm">{c.industry}</div>
-                      <div className="col-span-2 text-right text-black/80 text-sm">{c.year}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Selected Projects Section - placed immediately after About Me */}
-      <section className="relative bg-[#F5F5F0]">
-        <div className="mx-auto max-w-[1320px] px-6 md:px-8 lg:px-10 pt-8 lg:pt-10 pb-20 lg:pb-24">
+        <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left - Section Title (JS Pinned) */}
-            <div ref={projectsPinned.containerRef} className="relative col-span-2 -ml-2 md:-ml-3 lg:-ml-4">
-              <div ref={projectsPinned.titleRef} style={projectsPinned.style} className="text-[11px] md:text-xs font-medium tracking-[0.18em] text-black uppercase leading-none">
+            <div ref={projectsPinned.containerRef} className="sticky-col">
+              <div ref={projectsPinned.titleRef} style={projectsPinned.style} className="eyebrow">
                 I SELECTED PROJECTS
               </div>
             </div>
 
             {/* Right - Content */}
-            <div className="col-span-8 col-start-4">
+            <div className="content-col">
               <div className="max-w-[920px] space-y-16">
                 {projects.map((p, idx) => (
                   <div key={idx}>
@@ -409,6 +451,242 @@ export default function Home() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Explore Services Section */}
+      <section className="relative bg-[#F5F5F0]">
+        <div className="section-wrap section-pad">
+          <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
+            {/* Left title */}
+            <div ref={servicesPinned.containerRef} className="sticky-col">
+              <div ref={servicesPinned.titleRef} style={servicesPinned.style} className="eyebrow">
+                I EXPLORE SERVICES
+              </div>
+            </div>
+
+            {/* Right grid */}
+            <div className="content-col">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                {services.map((s, i) => (
+                  <div key={i} className="pb-8 border-b border-black/10">
+                    <div className="mb-3">{s.icon}</div>
+                    <div className="text-lg md:text-xl font-semibold text-black mb-2">{s.title}</div>
+                    <p className="text-sm text-black/70 leading-relaxed max-w-[48ch]">{s.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Clients Section */}
+      <section className="relative bg-[#F5F5F0]">
+        <div className="section-wrap section-pad">
+          <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
+            {/* Left title */}
+            <div ref={clientsPinned.containerRef} className="sticky-col">
+              <div ref={clientsPinned.titleRef} style={clientsPinned.style} className="eyebrow">
+                I LATEST CLIENTS
+              </div>
+            </div>
+
+            {/* Right table */}
+            <div className="content-col">
+              <div className="max-w-[920px]">
+                {/* Header */}
+                <div className="grid grid-cols-12 text-xs text-black/60 mb-3">
+                  <div className="col-span-2">#</div>
+                  <div className="col-span-4">Company Name</div>
+                  <div className="col-span-4">Industry</div>
+                  <div className="col-span-2 text-right">Year</div>
+                </div>
+                <div className="divide-y divide-black/10">
+                  {clients.map((c) => (
+                    <div key={c.idx} className="grid grid-cols-12 py-3 items-center">
+                      <div className="col-span-2 text-black/80 text-sm">{c.idx}</div>
+                      <div className="col-span-4 text-black text-sm md:text-base">{c.company}</div>
+                      <div className="col-span-4 text-black/80 text-sm">{c.industry}</div>
+                      <div className="col-span-2 text-right text-black/80 text-sm">{c.year}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Clients Reviews Section */}
+      <section className="relative bg-[#F5F5F0]">
+        <div className="section-wrap section-pad">
+          <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
+            {/* Left title */}
+            <div ref={reviewsPinned.containerRef} className="sticky-col">
+              <div ref={reviewsPinned.titleRef} style={reviewsPinned.style} className="eyebrow">
+                I CLIENTS REVIEWS
+              </div>
+            </div>
+
+            {/* Right list */}
+            <div className="content-col">
+              <div className="max-w-[920px] space-y-10">
+                {reviews.map((r, i) => (
+                  <div key={i} className="grid grid-cols-12 gap-6 md:gap-8 items-start">
+                    {/* image */}
+                    <div className="col-span-12 md:col-span-5">
+                      <div className="aspect-[4/3] bg-gray-200/60 overflow-hidden">
+                        <img src={r.image} alt={r.title} className="w-full h-full object-cover" />
+                      </div>
+                    </div>
+                    {/* text */}
+                    <div className="col-span-12 md:col-span-7">
+                      <div className="text-lg md:text-xl font-semibold text-black mb-2 leading-snug">
+                        {r.title}
+                      </div>
+                      <p className="text-sm text-black/75 leading-relaxed mb-5 max-w-[56ch]">“{r.quote}”</p>
+                      <div className="flex items-center gap-3">
+                        <img src={r.avatar} alt={r.person} className="w-9 h-9 rounded-full object-cover" />
+                        <div>
+                          <div className="text-sm font-medium text-black">{r.person}</div>
+                          <div className="text-xs text-black/60">{r.role}</div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* divider under each row */}
+                    <div className="col-span-12 pt-6">
+                      <div className="h-px w-full bg-black/10" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="relative bg-[#F5F5F0]">
+        <div className="section-wrap section-pad">
+          <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
+            {/* Left title */}
+            <div ref={faqPinned.containerRef} className="sticky-col">
+              <div ref={faqPinned.titleRef} style={faqPinned.style} className="eyebrow">
+                I FREQUENTLY ASKED QUESTION
+              </div>
+            </div>
+
+            {/* Right accordion */}
+            <div className="content-col">
+              <div className="max-w-[920px]">
+                <Accordion type="single" collapsible className="w-full">
+                  {faqs.map((f, idx) => (
+                    <AccordionItem key={idx} value={`item-${idx}`}>
+                      <AccordionTrigger className="text-base md:text-lg font-semibold text-black">
+                        {f.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-sm text-black/75 leading-relaxed">
+                        {f.a}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Blog & Articles Section */}
+      <section className="relative bg-[#F5F5F0]">
+        <div className="section-wrap section-pad">
+          <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
+            {/* Left title */}
+            <div ref={blogPinned.containerRef} className="sticky-col">
+              <div ref={blogPinned.titleRef} style={blogPinned.style} className="eyebrow">
+                I BLOG & ARTICLES
+              </div>
+            </div>
+
+            {/* Right grid of posts */}
+            <div className="content-col">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
+                {blogPosts.map((post, i) => (
+                  <article key={i} className="group">
+                    <div className="aspect-[4/3] bg-gray-200/60 overflow-hidden mb-3">
+                      <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                    </div>
+                    <div className="text-[12px] text-black/60 flex items-center gap-4 mb-1">
+                      <span className="inline-flex items-center gap-1">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 2v4M17 2v4M3 10h18M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" strokeWidth="1.4"/></svg>
+                        {post.date}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" strokeWidth="1.4"/><path d="M12 6v6l4 2" strokeWidth="1.4"/></svg>
+                        {post.readMin} minute read
+                      </span>
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-semibold leading-snug max-w-[30ch]">{post.title}</h3>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Get In Touch Section */}
+      <section className="relative bg-[#EFEFEF]">
+        <div className="section-wrap section-pad">
+          {/* Social links row */}
+          <div className="flex items-center gap-10 text-sm text-black/70 mb-6">
+            <span>Instagram</span>
+            <span>X (Twitter)</span>
+            <span>LinkedIn</span>
+            <span>Dribbble</span>
+          </div>
+          <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
+            {/* Left title + contacts */}
+            <div ref={contactPinned.containerRef} className="sticky-col">
+              <div ref={contactPinned.titleRef} style={contactPinned.style} className="eyebrow">
+                I GET IN TOUCH
+              </div>
+              <div className="mt-10 space-y-6 text-sm text-black">
+                <div>
+                  <div className="mb-1">+001 313 759 968 345</div>
+                  <div className="text-black/70">martinrobart@gmail.com</div>
+                </div>
+                <div className="text-black/70 leading-relaxed">
+                  12273 Dream Avenue,<br />
+                  New York, United State
+                </div>
+              </div>
+            </div>
+
+            {/* Right big heading + buttons */}
+            <div className="content-col">
+              <div className="text-[clamp(2.8rem,8.5vw,8rem)] font-black leading-[0.95] tracking-tight text-black">
+                <div>Let’s Work</div>
+                <div>Together</div>
+              </div>
+              <div className="mt-8 flex items-center gap-4">
+                <button className="px-6 py-3 bg-black text-white text-sm font-medium rounded-none">Contact Now →</button>
+                <button className="px-6 py-3 border border-black text-sm font-medium rounded-none">Schedule a call →</button>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom footer strip */}
+          <div className="mt-16 pt-6 border-t border-black/10 text-xs text-black/70 flex items-center justify-between">
+            <div>
+              Designed by <span className="underline">Mavenflow</span> • <span className="underline">License</span>
+            </div>
+            <nav className="hidden md:flex items-center gap-6">
+              <a>Home</a><a>Projects</a><a>Services</a><a>About us</a><a>Blog</a>
+            </nav>
+            <div>©Martin.R, All rights reserved</div>
           </div>
         </div>
       </section>

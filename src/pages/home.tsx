@@ -17,13 +17,11 @@
  * - Clean, minimal navigation
  */
 
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { usePinnedTitle } from '@/hooks/usePinnedTitle';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 
 export default function Home() {
-  const [portraitImage, setPortraitImage] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const aboutPinned = usePinnedTitle(10);
   const projectsPinned = usePinnedTitle(10);
   const servicesPinned = usePinnedTitle(10);
@@ -216,20 +214,9 @@ export default function Home() {
     },
   ];
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setPortraitImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // portrait is static now; upload removed
 
-  const handleImageClick = () => {
-    fileInputRef.current?.click();
-  };
+  const DEFAULT_PORTRAIT = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" fill="white"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="white"/></svg>';
 
   return (
     <div className="min-h-screen bg-warm-brown text-white font-sans relative overflow-hidden">
@@ -272,45 +259,15 @@ export default function Home() {
 
         {/* Center Section - Portrait Area (No Container) */}
         <div className="flex-1 flex items-center justify-center px-6">
-          <div className="relative w-80 h-96 md:w-96 md:h-[28rem] lg:w-[28rem] lg:h-[32rem] xl:w-[32rem] xl:h-[36rem] flex items-center justify-center">
-            {/* Portrait Image Area - Direct display without container */}
-            <div 
-              className="w-full h-full flex items-center justify-center cursor-pointer transition-all duration-300 hover:opacity-80"
-              onClick={handleImageClick}
-            >
-              {portraitImage ? (
-                /* User uploaded portrait - displayed directly without container */
-                <img 
-                  src={portraitImage} 
-                  alt="Martin Robart Portrait"
-                  className="max-w-full max-h-full object-contain"
-                  style={{ 
-                    maxHeight: '100%',
-                    maxWidth: '100%',
-                    height: 'auto',
-                    width: 'auto'
-                  }}
-                />
-              ) : (
-                /* Placeholder for portrait upload */
-                <div className="text-4xl md:text-6xl lg:text-7xl font-extralight text-white/20 tracking-[0.3em] text-center group-hover:text-white/30 transition-colors">
-                  <div className="opacity-50 hover:opacity-70 transition-opacity">Upload</div>
-                  <div className="text-2xl md:text-3xl lg:text-4xl mt-2 opacity-40 hover:opacity-60 transition-opacity">Portrait</div>
-                  <div className="text-sm md:text-base mt-4 opacity-30 font-normal tracking-normal">
-                    Click to add PNG image
-                  </div>
-                </div>
-              )}
-              
-              {/* Hidden file input for image upload */}
-              <input 
-                ref={fileInputRef}
-                type="file" 
-                accept="image/png,image/jpg,image/jpeg,image/webp" 
-                className="hidden" 
-                onChange={handleImageUpload}
-              />
-            </div>
+          <div className="relative portrait-container flex items-center justify-center">
+            {/* Portrait Image - Static, non-interactive */}
+            <img
+              src="/portrait.png"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).src = DEFAULT_PORTRAIT; }}
+              alt="Portrait"
+              className="max-w-full max-h-full object-contain drop-shadow-[0_18px_30px_rgba(0,0,0,0.28)]"
+              style={{ maxHeight: '100%', maxWidth: '100%', height: 'auto', width: 'auto' }}
+            />
           </div>
         </div>
 
@@ -367,7 +324,7 @@ export default function Home() {
       </button>
 
       {/* About Me Section */}
-      <section className="relative bg-[#F5F5F0] min-h-[120vh] md:min-h-[110vh]">
+      <section className="relative bg-paper min-h-[120vh] md:min-h-[110vh]">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left - Section Title (JS Pinned) */}
@@ -405,7 +362,7 @@ export default function Home() {
       </section>
 
       {/* Selected Projects Section */}
-      <section className="relative bg-[#F5F5F0]">
+      <section className="relative bg-paper text-black">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left - Section Title (JS Pinned) */}
@@ -421,7 +378,7 @@ export default function Home() {
                 {projects.map((p, idx) => (
                   <div key={idx}>
                     {/* Image or Placeholder */}
-                    <div className="aspect-[16/9] bg-gray-200/60 overflow-hidden">
+                    <div className="card-image ratio-16x9 img-hover-scale group">
                       {p.imageUrl ? (
                         <img src={p.imageUrl} alt={p.title} className="w-full h-full object-cover" />
                       ) : (
@@ -456,7 +413,7 @@ export default function Home() {
       </section>
 
       {/* Explore Services Section */}
-      <section className="relative bg-[#F5F5F0]">
+      <section className="relative bg-paper">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left title */}
@@ -483,7 +440,7 @@ export default function Home() {
       </section>
 
       {/* Latest Clients Section */}
-      <section className="relative bg-[#F5F5F0]">
+      <section className="relative bg-paper">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left title */}
@@ -520,7 +477,7 @@ export default function Home() {
       </section>
 
       {/* Clients Reviews Section */}
-      <section className="relative bg-[#F5F5F0]">
+      <section className="relative bg-paper">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left title */}
@@ -568,7 +525,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="relative bg-[#F5F5F0]">
+      <section className="relative bg-paper">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left title */}
@@ -615,8 +572,8 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
                 {blogPosts.map((post, i) => (
                   <article key={i} className="group">
-                    <div className="aspect-[4/3] bg-gray-200/60 overflow-hidden mb-3">
-                      <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                    <div className="card-image ratio-4x3 img-hover-scale mb-3">
+                      <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
                     </div>
                     <div className="text-[12px] text-black/60 flex items-center gap-4 mb-1">
                       <span className="inline-flex items-center gap-1">
@@ -628,7 +585,7 @@ export default function Home() {
                         {post.readMin} minute read
                       </span>
                     </div>
-                    <h3 className="text-xl md:text-2xl font-semibold leading-snug max-w-[30ch]">{post.title}</h3>
+                    <h3 className="text-xl md:text-2xl font-semibold leading-snug max-w-[30ch] text-black">{post.title}</h3>
                   </article>
                 ))}
               </div>
@@ -638,14 +595,14 @@ export default function Home() {
       </section>
 
       {/* Get In Touch Section */}
-      <section className="relative bg-[#EFEFEF]">
+      <section className="relative bg-paper-2">
         <div className="section-wrap section-pad">
           {/* Social links row */}
           <div className="flex items-center gap-10 text-sm text-black/70 mb-6">
-            <span>Instagram</span>
-            <span>X (Twitter)</span>
-            <span>LinkedIn</span>
-            <span>Dribbble</span>
+            <a href="#" aria-label="Instagram">Instagram</a>
+            <a href="#" aria-label="Twitter / X">X (Twitter)</a>
+            <a href="#" aria-label="LinkedIn">LinkedIn</a>
+            <a href="#" aria-label="Dribbble">Dribbble</a>
           </div>
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left title + contacts */}
@@ -672,8 +629,8 @@ export default function Home() {
                 <div>Together</div>
               </div>
               <div className="mt-8 flex items-center gap-4">
-                <button className="px-6 py-3 bg-black text-white text-sm font-medium rounded-none">Contact Now →</button>
-                <button className="px-6 py-3 border border-black text-sm font-medium rounded-none">Schedule a call →</button>
+                <button className="btn btn-primary">Contact Now →</button>
+                <button className="btn btn-outline">Schedule a call →</button>
               </div>
             </div>
           </div>

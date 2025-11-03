@@ -61,6 +61,16 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Light paper backgrounds */
+    --paper-1: 0 0% 96%; /* #F5F5F0 近似的温暖浅米色 */
+    --paper-2: 0 0% 94%; /* #EFEFEF 近似的浅灰色 */
+
+    /* Portrait sizing tokens */
+    --portrait-min-w: 20rem; /* 最小宽度 */
+    --portrait-max-w: 32rem; /* 最大宽度 */
+    --portrait-min-h: 24rem; /* 最小高度 */
+    --portrait-max-h: 36rem; /* 最大高度 */
   }
 
   .dark {
@@ -164,6 +174,13 @@
   .content-col {
     @apply col-span-8 col-start-4;
   }
+  /* Background helpers */
+  .bg-paper {
+    background-color: hsl(var(--paper-1));
+  }
+  .bg-paper-2 {
+    background-color: hsl(var(--paper-2));
+  }
   .card-image {
     @apply overflow-hidden bg-gray-200/60;
   }
@@ -172,6 +189,32 @@
   }
   .ratio-4x3 {
     aspect-ratio: 4/3;
+  }
+
+  /* Image hover motion */
+  .img-hover-scale img {
+    @apply transition-transform duration-500 ease-out;
+  }
+  .img-hover-scale:hover img {
+    transform: scale(1.02);
+  }
+
+  /* Portrait container with responsive clamp sizing
+     调整大小时只需修改 :root 中的 --portrait-* 变量 */
+  .portrait-container {
+    width: clamp(var(--portrait-min-w), 40vw, var(--portrait-max-w));
+    height: clamp(var(--portrait-min-h), 50vw, var(--portrait-max-h));
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium rounded-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/60 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply bg-black text-white hover:bg-black/90;
+  }
+  .btn-outline {
+    @apply border border-black text-black hover:bg-black hover:text-white;
   }
   .text-gradient {
     background: linear-gradient(to right, #1e293b, #475569);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { X } from 'lucide-react';
@@ -136,6 +136,11 @@ export default function ProjectDetail() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const project = id ? projectsData[id] : null;
+
+  // Scroll to top when project ID changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
   const navItems = [
     { label: 'Home', to: '/#home' },
     { label: 'Projects', to: '/#projects' },

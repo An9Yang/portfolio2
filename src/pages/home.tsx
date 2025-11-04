@@ -18,10 +18,12 @@
  */
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { usePinnedTitle } from '@/hooks/usePinnedTitle';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { X } from 'lucide-react';
+import { FooterSection } from '@/components/footer-section';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,24 +34,26 @@ export default function Home() {
   const reviewsPinned = usePinnedTitle(10);
   const faqPinned = usePinnedTitle(10);
   const blogPinned = usePinnedTitle(10);
-  const contactPinned = usePinnedTitle(10);
   
   // Projects data - images can be provided later; empty imageUrl will show a placeholder
   // Keep a compact list for now; will expand with user's assets
-  const projects: Array<{ title: string; imageUrl?: string; tags: string[] }> = [
+  const projects: Array<{ id: string; title: string; imageUrl?: string; tags: string[] }> = [
     {
+      id: 'boldstream',
       title: 'Boldstream',
       imageUrl:
         'https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=1600&q=80',
       tags: ['Marketing', 'Web design', 'Development'],
     },
     {
+      id: 'innovatex',
       title: 'InnovateX',
       imageUrl:
         'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80',
       tags: ['Web design', 'Motion', 'Development'],
     },
     {
+      id: 'aether-chair',
       title: 'Aether Chair',
       imageUrl:
         'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80',
@@ -531,9 +535,9 @@ export default function Home() {
             <div className="content-col">
               <div className="max-w-[920px] space-y-16">
                 {projects.map((p, idx) => (
-                  <div key={idx}>
+                  <Link key={idx} to={`/projects/${p.id}`} className="block group">
                     {/* Image or Placeholder */}
-                    <div className="card-image ratio-16x9 img-hover-scale group">
+                    <div className="card-image ratio-16x9 img-hover-scale">
                       {p.imageUrl ? (
                         <img src={p.imageUrl} alt={p.title} className="w-full h-full object-cover" />
                       ) : (
@@ -550,7 +554,7 @@ export default function Home() {
 
                     {/* Meta row: title left, tags right */}
                     <div className="mt-3 flex items-center justify-between">
-                      <div className="text-base md:text-lg font-medium text-black">{p.title}</div>
+                      <div className="text-base md:text-lg font-medium text-black group-hover:opacity-70 transition-opacity">{p.title}</div>
                       <div className="flex flex-wrap gap-2">
                         {p.tags.map((t) => (
                           <span key={t} className="px-3 py-1 rounded-full border border-black/10 bg-black/5 text-xs text-black/70">
@@ -559,7 +563,7 @@ export default function Home() {
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -750,58 +754,7 @@ export default function Home() {
       </section>
 
       {/* Get In Touch Section */}
-      <section className="relative bg-paper-2">
-        <div className="section-wrap section-pad">
-          {/* Social links row */}
-          <div className="flex items-center gap-10 text-sm text-black/70 mb-6">
-            <a href="#" aria-label="Instagram">Instagram</a>
-            <a href="#" aria-label="Twitter / X">X (Twitter)</a>
-            <a href="#" aria-label="LinkedIn">LinkedIn</a>
-            <a href="#" aria-label="Dribbble">Dribbble</a>
-          </div>
-          <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
-            {/* Left title + contacts */}
-            <div ref={contactPinned.containerRef} className="sticky-col">
-              <div ref={contactPinned.titleRef} style={contactPinned.style} className="eyebrow">
-                I GET IN TOUCH
-              </div>
-              <div className="mt-10 space-y-6 text-sm text-black">
-                <div>
-                  <div className="mb-1">+001 313 759 968 345</div>
-                  <div className="text-black/70">martinrobart@gmail.com</div>
-                </div>
-                <div className="text-black/70 leading-relaxed">
-                  12273 Dream Avenue,<br />
-                  New York, United State
-                </div>
-              </div>
-            </div>
-
-            {/* Right big heading + buttons */}
-            <div className="content-col">
-              <div className="text-[clamp(2.8rem,8.5vw,8rem)] font-black leading-[0.95] tracking-tight text-black">
-                <div>Let’s Work</div>
-                <div>Together</div>
-              </div>
-              <div className="mt-8 flex items-center gap-4">
-                <button className="btn btn-primary">Contact Now →</button>
-                <button className="btn btn-outline">Schedule a call →</button>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom footer strip */}
-          <div className="mt-16 pt-6 border-t border-black/10 text-xs text-black/70 flex items-center justify-between">
-            <div>
-              Designed by <span className="underline">Mavenflow</span> • <span className="underline">License</span>
-            </div>
-            <nav className="hidden md:flex items-center gap-6">
-              <a>Home</a><a>Projects</a><a>Services</a><a>About us</a><a>Blog</a>
-            </nav>
-            <div>©Martin.R, All rights reserved</div>
-          </div>
-        </div>
-      </section>
+      <FooterSection />
     </div>
   );
 }

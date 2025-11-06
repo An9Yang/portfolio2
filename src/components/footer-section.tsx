@@ -20,16 +20,16 @@ export function FooterSection({ className, navLinks }: FooterSectionProps) {
     <footer className={cn('relative bg-paper-2', className)}>
       <div className="section-wrap section-pad">
         <div className="flex items-center gap-10 text-sm text-black/70 mb-6">
-          <a href="#" aria-label="Instagram">
+          <a href="https://instagram.com/martinrobart" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-black transition-colors">
             Instagram
           </a>
-          <a href="#" aria-label="Twitter / X">
+          <a href="https://twitter.com/martinrobart" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X" className="hover:text-black transition-colors">
             X (Twitter)
           </a>
-          <a href="#" aria-label="LinkedIn">
+          <a href="https://linkedin.com/in/martinrobart" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-black transition-colors">
             LinkedIn
           </a>
-          <a href="#" aria-label="Dribbble">
+          <a href="https://dribbble.com/martinrobart" target="_blank" rel="noopener noreferrer" aria-label="Dribbble" className="hover:text-black transition-colors">
             Dribbble
           </a>
         </div>
@@ -57,8 +57,8 @@ export function FooterSection({ className, navLinks }: FooterSectionProps) {
               <div>Together</div>
             </div>
             <div className="mt-8 flex items-center gap-4">
-              <button className="btn btn-primary">Contact Now →</button>
-              <button className="btn btn-outline">Schedule a call →</button>
+              <a href="/contact" className="btn btn-primary">Contact Now →</a>
+              <a href="https://calendly.com/martinrobart" target="_blank" rel="noopener noreferrer" className="btn btn-outline">Schedule a call →</a>
             </div>
           </div>
         </div>

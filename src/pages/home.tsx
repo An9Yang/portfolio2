@@ -38,11 +38,11 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { label: "Home", to: "/" },
-  { label: "Projects", to: "/projects" },
+  { label: "Projects", to: "/#projects" },
   { label: "Services", to: "/#services" },
   { label: "About us", to: "/#about" },
   { label: "Blog", to: "/#blog" },
-  { label: "Contact", to: "/#contact" },
+  { label: "Contact", to: "/contact" },
 ];
 
 export default function Home() {

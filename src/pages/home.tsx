@@ -242,30 +242,35 @@ export default function Home() {
   ];
 
   const blogPosts: Array<{
+    id: string;
     title: string;
     date: string;
     readMin: number;
     image: string;
   }> = [
     {
+      id: 'design-principles',
       title: '5 design principles that elevate your projects',
       date: 'June 18, 2025',
       readMin: 10,
       image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80',
     },
     {
+      id: 'challenging-project',
       title: 'Lessons learned from my most challenging project',
       date: 'June 18, 2025',
       readMin: 2,
       image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=80',
     },
     {
+      id: 'storytelling',
       title: 'How storytelling enhances your design and branding',
       date: 'June 18, 2025',
       readMin: 8,
       image: 'https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=1400&q=80',
     },
     {
+      id: 'essential-tools',
       title: 'Essential tools every creative professional should use',
       date: 'June 18, 2025',
       readMin: 5,
@@ -656,7 +661,7 @@ export default function Home() {
             <div className="content-col">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
                 {blogPosts.map((post, i) => (
-                  <article key={i} className="group">
+                  <Link key={i} to={`/blog/${post.id}`} className="block group">
                     <div className="card-image ratio-4x3 img-hover-scale mb-3">
                       <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
                     </div>
@@ -670,8 +675,8 @@ export default function Home() {
                         {post.readMin} minute read
                       </span>
                     </div>
-                    <h3 className="text-xl md:text-2xl font-semibold leading-snug max-w-[30ch] text-black">{post.title}</h3>
-                  </article>
+                    <h3 className="text-xl md:text-2xl font-semibold leading-snug max-w-[30ch] text-black group-hover:opacity-70 transition-opacity">{post.title}</h3>
+                  </Link>
                 ))}
               </div>
             </div>

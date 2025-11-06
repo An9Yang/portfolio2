@@ -162,7 +162,7 @@ export default function Contact() {
       </Sheet>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 md:pt-40 md:pb-24">
+      <section className="relative pt-40 pb-16 md:pt-48 md:pb-24">
         <div className="section-wrap">
           <h1 className="text-[clamp(4rem,12vw,10rem)] font-black leading-none tracking-tight text-black mb-6">
             Let's Work

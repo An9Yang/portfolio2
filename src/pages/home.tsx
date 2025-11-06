@@ -17,13 +17,33 @@
  * - Clean, minimal navigation
  */
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { usePinnedTitle } from '@/hooks/usePinnedTitle';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { X } from 'lucide-react';
-import { FooterSection } from '@/components/footer-section';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { usePinnedTitle } from "@/hooks/usePinnedTitle";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { X } from "lucide-react";
+import { FooterSection } from "@/components/footer-section";
+import { projectList } from "@/lib/projects-data";
+
+type NavItem = {
+  label: string;
+  to: string;
+};
+
+const navItems: NavItem[] = [
+  { label: "Home", to: "/" },
+  { label: "Projects", to: "/projects" },
+  { label: "Services", to: "/#services" },
+  { label: "About us", to: "/#about" },
+  { label: "Blog", to: "/#blog" },
+  { label: "Contact", to: "/#contact" },
+];
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,32 +54,64 @@ export default function Home() {
   const reviewsPinned = usePinnedTitle(10);
   const faqPinned = usePinnedTitle(10);
   const blogPinned = usePinnedTitle(10);
-  
-  // Projects data - images can be provided later; empty imageUrl will show a placeholder
-  // Keep a compact list for now; will expand with user's assets
-  const projects: Array<{ id: string; title: string; imageUrl?: string; tags: string[] }> = [
-    {
-      id: 'boldstream',
-      title: 'Boldstream',
-      imageUrl:
-        'https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=1600&q=80',
-      tags: ['Marketing', 'Web design', 'Development'],
-    },
-    {
-      id: 'innovatex',
-      title: 'InnovateX',
-      imageUrl:
-        'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80',
-      tags: ['Web design', 'Motion', 'Development'],
-    },
-    {
-      id: 'aether-chair',
-      title: 'Aether Chair',
-      imageUrl:
-        'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80',
-      tags: ['Product', '3D', 'Exploration'],
-    },
-  ];
+
+  const renderMenuContent = (variant: "desktop" | "mobile") => {
+    const isMobile = variant === "mobile";
+
+    return (
+      <div
+        className={`h-full flex flex-col justify-between ${
+          isMobile ? "p-8 md:p-16" : "p-12 md:p-16"
+        }`}
+      >
+        <nav className={`${isMobile ? "space-y-4 pt-16" : "space-y-6 pt-8"}`}>
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              to={item.to}
+              onClick={() => setMenuOpen(false)}
+              className={`block ${
+                isMobile ? "text-[2.5rem]" : "text-[3rem] md:text-[4rem]"
+              } font-normal text-black leading-tight hover:opacity-60 transition-opacity`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div
+          className={
+            isMobile
+              ? "space-y-4 mt-12 border-t border-black/10 pt-6"
+              : "border-t border-black/10 pt-8 space-y-6"
+          }
+        >
+          <div className={isMobile ? "space-y-4" : "grid grid-cols-2 gap-8"}>
+            <div>
+              <p className="text-black text-sm md:text-base font-normal">
+                +001 313 759 968 345
+              </p>
+            </div>
+            <div>
+              <p className="text-black text-sm md:text-base font-normal">
+                12273 Dream Avenue,
+              </p>
+              <p className="text-black text-sm md:text-base font-normal">
+                New York, United State
+              </p>
+            </div>
+          </div>
+          <div>
+            <p className="text-black text-sm md:text-base font-normal">
+              martinrobart@gmail.com
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const projects = projectList;
 
   const services: Array<{ icon: React.ReactNode; title: string; desc: string }> = [
     {
@@ -226,7 +278,7 @@ export default function Home() {
   const DEFAULT_PORTRAIT = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" fill="white"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="white"/></svg>';
 
   return (
-    <div className="min-h-screen bg-warm-brown text-white font-sans relative overflow-hidden">
+    <div id="home" className="min-h-screen bg-warm-brown text-white font-sans relative overflow-hidden">
       {/* Navigation Header */}
       <header className="absolute top-0 left-0 right-0 z-20 p-6 md:p-8">
         <div className="flex items-center justify-between">
@@ -252,78 +304,13 @@ export default function Home() {
               </button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full md:w-[500px] bg-white p-0 border-none">
-              {/* Close Button */}
               <button 
                 onClick={() => setMenuOpen(false)}
                 className="absolute top-8 right-8 z-50 p-2 hover:bg-black/5 rounded-full transition-colors"
               >
                 <X className="w-6 h-6 text-black" />
               </button>
-
-              {/* Menu Content */}
-              <div className="h-full flex flex-col justify-between p-12 md:p-16">
-                {/* Navigation Links */}
-                <nav className="space-y-6 pt-8">
-                  <a 
-                    href="#home" 
-                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Home
-                  </a>
-                  <a 
-                    href="#projects" 
-                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Projects
-                  </a>
-                  <a 
-                    href="#services" 
-                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Services
-                  </a>
-                  <a 
-                    href="#about" 
-                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    About us
-                  </a>
-                  <a 
-                    href="#blog" 
-                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Blog
-                  </a>
-                  <a 
-                    href="#contact" 
-                    className="block text-[3rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Contact
-                  </a>
-                </nav>
-
-                {/* Contact Information */}
-                <div className="border-t border-black/10 pt-8 space-y-6">
-                  <div className="grid grid-cols-2 gap-8">
-                    <div>
-                      <p className="text-black text-base font-normal">+001 313 759 968 345</p>
-                    </div>
-                    <div>
-                      <p className="text-black text-base font-normal">12273 Dream Avenue,</p>
-                      <p className="text-black text-base font-normal">New York, United State</p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-black text-base font-normal">martinrobart@gmail.com</p>
-                  </div>
-                </div>
-              </div>
+              {renderMenuContent("desktop")}
             </SheetContent>
           </Sheet>
         </div>
@@ -411,79 +398,18 @@ export default function Home() {
           </button>
         </SheetTrigger>
         <SheetContent side="right" className="w-full bg-white p-0 border-none">
-          {/* Close Button */}
           <button 
             onClick={() => setMenuOpen(false)}
             className="absolute top-8 right-8 z-50 p-2 hover:bg-black/5 rounded-full transition-colors"
           >
             <X className="w-6 h-6 text-black" />
           </button>
-
-          {/* Menu Content */}
-          <div className="h-full flex flex-col justify-between p-8 md:p-16">
-            {/* Navigation Links */}
-            <nav className="space-y-4 pt-16">
-              <a 
-                href="#home" 
-                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                onClick={() => setMenuOpen(false)}
-              >
-                Home
-              </a>
-              <a 
-                href="#projects" 
-                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                onClick={() => setMenuOpen(false)}
-              >
-                Projects
-              </a>
-              <a 
-                href="#services" 
-                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                onClick={() => setMenuOpen(false)}
-              >
-                Services
-              </a>
-              <a 
-                href="#about" 
-                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                onClick={() => setMenuOpen(false)}
-              >
-                About us
-              </a>
-              <a 
-                href="#blog" 
-                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                onClick={() => setMenuOpen(false)}
-              >
-                Blog
-              </a>
-              <a 
-                href="#contact" 
-                className="block text-[2.5rem] md:text-[4rem] font-normal text-black leading-tight hover:opacity-60 transition-opacity"
-                onClick={() => setMenuOpen(false)}
-              >
-                Contact
-              </a>
-            </nav>
-
-            {/* Contact Information */}
-            <div className="border-t border-black/10 pt-8 space-y-4">
-              <div className="space-y-4">
-                <p className="text-black text-sm md:text-base font-normal">+001 313 759 968 345</p>
-                <p className="text-black text-sm md:text-base font-normal">martinrobart@gmail.com</p>
-                <div>
-                  <p className="text-black text-sm md:text-base font-normal">12273 Dream Avenue,</p>
-                  <p className="text-black text-sm md:text-base font-normal">New York, United State</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {renderMenuContent("mobile")}
         </SheetContent>
       </Sheet>
 
       {/* About Me Section */}
-      <section className="relative bg-paper min-h-[120vh] md:min-h-[110vh]">
+      <section id="about" className="relative bg-paper min-h-[120vh] md:min-h-[110vh]">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left - Section Title (JS Pinned) */}
@@ -521,7 +447,7 @@ export default function Home() {
       </section>
 
       {/* Selected Projects Section */}
-      <section className="relative bg-paper text-black">
+      <section id="projects" className="relative bg-paper text-black">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left - Section Title (JS Pinned) */}
@@ -538,8 +464,8 @@ export default function Home() {
                   <Link key={idx} to={`/projects/${p.id}`} className="block group">
                     {/* Image or Placeholder */}
                     <div className="card-image ratio-16x9 img-hover-scale">
-                      {p.imageUrl ? (
-                        <img src={p.imageUrl} alt={p.title} className="w-full h-full object-cover" />
+                      {p.image ? (
+                        <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           {/* 简洁的占位图标 */}
@@ -572,7 +498,7 @@ export default function Home() {
       </section>
 
       {/* Explore Services Section */}
-      <section className="relative bg-paper">
+      <section id="services" className="relative bg-paper">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left title */}
@@ -716,7 +642,7 @@ export default function Home() {
       </section>
 
       {/* Blog & Articles Section */}
-      <section className="relative bg-[#F5F5F0]">
+      <section id="blog" className="relative bg-[#F5F5F0]">
         <div className="section-wrap section-pad">
           <div className="grid grid-cols-12 gap-x-10 lg:gap-x-14">
             {/* Left title */}
@@ -754,7 +680,11 @@ export default function Home() {
       </section>
 
       {/* Get In Touch Section */}
-      <FooterSection />
+      <div id="contact">
+        <FooterSection
+          navLinks={navItems.map((item) => ({ label: item.label, href: item.to }))}
+        />
+      </div>
     </div>
   );
 }
